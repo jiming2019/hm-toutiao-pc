@@ -4,21 +4,21 @@
     <!-- 卡片容器  el-card是一个element组件，根元素上默认添加一个类和组件的名称一致 -->
     <el-card>
       <img src="../../assets/img/logo_index.png" alt="">
-            <el-form :model="LoginForm">
-        <el-form-item>
-          <el-input v-model="LoginForm.mobile" placeholder="请输入手机号"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-input v-model="LoginForm.code" placeholder="请输入验证码" style="width:240px;margin-right:8px"></el-input>
-          <el-button>发送验证码</el-button>
-        </el-form-item>
-        <el-form-item>
-          <el-checkbox :value="true">我已阅读并同意用户协议和隐私条款</el-checkbox>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit" style="width:100%;">登录</el-button>
-        </el-form-item>
-      </el-form>
+        <el-form :model="loginForm" ref="loginForm" status-icon :rules="loginRules">
+          <el-form-item prop="mobile">
+            <el-input v-model="loginForm.mobile" placeholder="请输入手机号"></el-input>
+          </el-form-item>
+          <el-form-item prop="code">
+            <el-input v-model="loginForm.code" placeholder="请输入验证码" style="width:240px;margin-right:8px"></el-input>
+            <el-button>发送验证码</el-button>
+          </el-form-item>
+          <el-form-item prop="agree">
+            <el-checkbox v-model="loginForm.agree">我已阅读并同意用户协议和隐私条款</el-checkbox>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="login" style="width:100%;">登录</el-button>
+          </el-form-item>
+        </el-form>
     </el-card>
   </div>
 </template>
@@ -26,16 +26,56 @@
 <script>
 export default {
   data () {
+    // const isAgree = function (rule, value, callBack)
+    const isAgree = (rule, value, callBack) => {
+      // rule当前规则 value当前表单项的值 callback 回调函数
+      // 正常写法
+      // if (value) {
+      //   // 正确 勾选了协议
+      //   callBack() // 一切OK请继续
+      // } else {
+      //   // 不对 没勾选协议
+      //   callBack(new Error('您必须同意用户协议'))
+      // }
+      value ? callBack() : callBack(new Error('您必须同意用户协议'))
+    }
     return {
-      LoginForm: {
+      loginForm: {
         mobile: '',
-        code: ''
+        code: '',
+        agree: false
+      },
+      loginRules: {
+        mobile: [
+          // type 选项：指定内容的格式  date|email|...  不包含手机号类型
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { pattern: /^1[3-9]\d{9}$/, message: '请输入合法的手机号' }
+        ],
+        code: [
+          { required: true, message: '请输入验证码', trigger: 'blur' },
+          { len: 6, message: '验证码为6位数字', trigger: 'blur' }
+        ],
+        agree: [{ validator: isAgree }] // 自定义校验规则
       }
     }
   },
   methods: {
-    onSubmit () {
-
+    login () {
+      // 对整个表单进行校验
+      this.$refs.loginForm.validate((valid) => {
+        if (valid) {
+          // 校验成功  进行登录（发请求）
+          // post(url,参数对象)
+          // get(url,{params:参数对象})
+          this.$http.post('authorizations', this.loginForm).then(result => {
+            // 将后台返回的token令牌存储到前端缓存中
+            window.localStorage.setItem('user-token', result.data.token)
+            this.$router.push('/')
+          }).catch(() => {
+            this.$message.error('手机号或验证码错误')
+          })
+        }
+      })
     }
   }
 }
