@@ -5,7 +5,7 @@
       <div class="logo" :class="{smallLogo:!isOpen}"></div>
       <!-- 导航菜单 -->
       <el-menu
-        default-active="/"
+        default-active="$route.path"
         background-color="#002033"
         text-color="#fff"
         active-text-color="#ffd04b"
@@ -82,15 +82,15 @@
         <!-- 文字 -->
         <span class="text">Coding</span>
         <!-- 下拉菜单组件 -->
-        <el-dropdown trigger="click" class="dropdown">
+        <el-dropdown trigger="click" class="dropdown" @command="handleClick">
           <span class="el-dropdown-link">
-            <img class="headIcon" src="../../assets/img/avatar.jpg" alt />
-            <span class="userName">用户名</span>
+            <img class="headIcon" :src="photo" alt />
+            <span class="userName">{{name}}</span>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-setting">个人设置</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-unlock">退出登录</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-setting" command="setting">个人设置</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-unlock" command="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
@@ -105,18 +105,41 @@
 </template>
 
 <script>
+import local from '@/utils/local'
 export default {
   data () {
     return {
       // 是不是展开
-      isOpen: true
+      isOpen: true,
+      // 用户头像
+      photo: '',
+      name: ''
     }
   },
   methods: {
     toggleMenu () {
       // 切换侧边栏  展开与收起
       this.isOpen = !this.isOpen
+    },
+    setting () {
+      this.$router.push('/setting')
+    },
+    logout () {
+      local.delUser()
+      this.$router.push('/login')
+    },
+    handleClick (command) {
+      // command  值  setting | logout
+      // 根据 command 值去执行不同的业务
+      this[command]()
+      // this.setting() === command setting
+      // this.logout() === command logout
     }
+  },
+  created () {
+    const { photo, name } = local.getUser() || {}
+    this.photo = photo
+    this.name = name
   }
 }
 </script>

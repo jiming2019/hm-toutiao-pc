@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import local from '@/utils/local'
 export default {
   data () {
     // const isAgree = function (rule, value, callBack)
@@ -41,8 +42,8 @@ export default {
     }
     return {
       loginForm: {
-        mobile: '',
-        code: '',
+        mobile: '15999999999',
+        code: '246810',
         agree: false
       },
       loginRules: {
@@ -60,20 +61,38 @@ export default {
     }
   },
   methods: {
+    // login () {
+    //   // 对整个表单进行校验
+    //   this.$refs.loginForm.validate((valid) => {
+    //     if (valid) {
+    //       // 校验成功  进行登录（发请求）
+    //       // post(url,参数对象)
+    //       // get(url,{params:参数对象})
+    //       this.$http.post('authorizations', this.loginForm).then(result => {
+    //         // 将后台返回的token令牌存储到前端缓存中
+    //         // window.localStorage.setItem('user-token', result.data.token)
+    //         // 保存用户token
+    //         console.log(result)
+    //         local.setUser(result.data.data)
+    //         this.$router.push('/')
+    //       }).catch(() => {
+    //         this.$message.error('手机号或验证码错误')
+    //       })
+    //     }
+    //   })
+    // }
+
     login () {
       // 对整个表单进行校验
-      this.$refs.loginForm.validate((valid) => {
+      this.$refs.loginForm.validate(async (valid) => {
         if (valid) {
-          // 校验成功  进行登录（发请求）
-          // post(url,参数对象)
-          // get(url,{params:参数对象})
-          this.$http.post('authorizations', this.loginForm).then(result => {
-            // 将后台返回的token令牌存储到前端缓存中
-            window.localStorage.setItem('user-token', result.data.token)
+          try {
+            const { data: { data } } = await this.$http.post('authorizations', this.loginForm)
+            local.setUser(data)
             this.$router.push('/')
-          }).catch(() => {
+          } catch (error) {
             this.$message.error('手机号或验证码错误')
-          })
+          }
         }
       })
     }
