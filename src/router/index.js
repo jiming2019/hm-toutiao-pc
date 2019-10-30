@@ -16,7 +16,10 @@ import Home from '@/views/home'
 import Welcome from '@/views/welcome'
 // 404页面组件
 import NotFound from '@/views/404'
-// 简单配置
+// 内容管理组件
+import Article from '@/views/article'
+
+// nprogress简单配置
 nprogress.inc(0.2)
 nprogress.configure({ easing: 'ease', speed: 500, showSpinner: false })
 
@@ -34,7 +37,9 @@ const router = new VueRouter({
       component: Home,
       children: [
         // 欢迎页面
-        { path: '/', component: Welcome }
+        { path: '/', component: Welcome },
+        // 内容管理
+        { path: '/article', component: Article }
       ]
     }
   ]

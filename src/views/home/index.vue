@@ -5,7 +5,7 @@
       <div class="logo" :class="{smallLogo:!isOpen}"></div>
       <!-- 导航菜单 -->
       <el-menu
-        default-active="$route.path"
+        :default-active="$route.path"
         background-color="#002033"
         text-color="#fff"
         active-text-color="#ffd04b"
@@ -131,6 +131,7 @@ export default {
     handleClick (command) {
       // command  值  setting | logout
       // 根据 command 值去执行不同的业务
+
       this[command]()
       // this.setting() === command setting
       // this.logout() === command logout

@@ -12,8 +12,16 @@ import router from '@/router'
 
 // 配置axios
 import axios from '@/api'
-Vue.prototype.$http = axios
 
+// 全局注册面包屑组件(弃用)，封装了面包屑插件，所以不用在这里引入
+// import BreadCrumb from '@/components/common/bread-crumb'
+// Vue.component('my-bread', BreadCrumb)
+
+// 全局注册插件
+import plugin from '@/components/plugin'
+Vue.use(plugin)
+
+Vue.prototype.$http = axios
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 new Vue({
