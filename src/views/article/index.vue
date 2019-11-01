@@ -20,9 +20,9 @@
         </el-form-item>
 
         <el-form-item label="频道：">
-          <el-select v-model="formData.channel_id" clearable placeholder="请选择">
-            <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
-          </el-select>
+          <!-- 使用自己封装的频道组件 -->
+          <!-- v-model是:value和@input的合写  第一 :value  第二  @input -->
+          <channel v-model="formData.channel_id"></channel>
         </el-form-item>
 
         <el-form-item label="日期：">
@@ -116,20 +116,20 @@ export default {
         per_page: 20 // 每页多少条
       },
 
-      channels: [], // 频道选项数组
+      // channels: [], // 频道选项数组 移到频道组件中
       dateArr: [], // 日期范围
       articles: [], // 文章列表数据
       total: 0 // 总条数
     }
   },
   methods: {
-    // 获取频道选项数据
-    async getChannels () {
-      const {
-        data: { data }
-      } = await this.$http.get('channels')
-      this.channels = data.channels
-    },
+    // 获取频道选项数据 移到频道组件中
+    // async getChannels () {
+    //   const {
+    //     data: { data }
+    //   } = await this.$http.get('channels')
+    //   this.channels = data.channels
+    // },
 
     // 获取文章列表数据
     async getArticles () {
@@ -171,19 +171,21 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(async () => {
-        await this.$http.delete(`articles/${id}`)
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        })
-        this.getArticles()
-      }).catch(() => {
-        this.$message({
-          type: 'warning',
-          message: '已取消删除'
-        })
       })
+        .then(async () => {
+          await this.$http.delete(`articles/${id}`)
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+          this.getArticles()
+        })
+        .catch(() => {
+          this.$message({
+            type: 'warning',
+            message: '已取消删除'
+          })
+        })
     },
 
     // 选择日期
@@ -201,8 +203,8 @@ export default {
     }
   },
   created () {
-    // 获取频道选项数据
-    this.getChannels()
+    // 获取频道选项数据 移到频道组件中
+    // this.getChannels()
     // 获取文章列表数据
     this.getArticles()
   },
@@ -243,6 +245,6 @@ export default {
 
 <style scoped lang="less">
 .el-card {
-  border-top:2px solid #409EFF;
+  border-top: 2px solid #409eff;
 }
 </style>
