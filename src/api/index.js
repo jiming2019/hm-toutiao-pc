@@ -3,10 +3,17 @@ import axios from 'axios'
 import local from '@/utils/local'
 import router from '@/router'
 import { Message } from 'element-ui'
+import jsonBig from 'json-bigint'
 // 对axios进行配置
 // baseURL  作用：设置基准地址（前面一段相同的地址）
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0/'
-
+axios.defaults.transformResponse = [(data) => {
+  try {
+    return jsonBig.parse(data)
+  } catch (error) {
+    return data
+  }
+}]
 // 请求拦截器
 axios.interceptors.request.use(config => {
   // 1. 获取token
