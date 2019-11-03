@@ -171,21 +171,15 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
+      }).then(async () => {
+        await this.$http.delete(`articles/${id}`)
+        this.$message({ type: 'success', message: '删除成功!'
+        })
+        this.getArticles()
+      }).catch(() => {
+        this.$message({ type: 'warning', message: '已取消删除'
+        })
       })
-        .then(async () => {
-          await this.$http.delete(`articles/${id}`)
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          })
-          this.getArticles()
-        })
-        .catch(() => {
-          this.$message({
-            type: 'warning',
-            message: '已取消删除'
-          })
-        })
     },
 
     // 选择日期

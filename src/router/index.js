@@ -18,6 +18,8 @@ import Welcome from '@/views/welcome'
 import NotFound from '@/views/404'
 // 内容管理组件
 import Article from '@/views/article'
+// 素材管理组件
+import Image from '@/views/image'
 
 // nprogress简单配置
 nprogress.inc(0.2)
@@ -39,7 +41,9 @@ const router = new VueRouter({
         // 欢迎页面
         { path: '/', component: Welcome },
         // 内容管理
-        { path: '/article', component: Article }
+        { path: '/article', component: Article },
+        // 素材管理
+        { path: '/image', component: Image }
       ]
     }
   ]
