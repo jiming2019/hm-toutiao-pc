@@ -90,15 +90,17 @@
       </el-table>
       <!-- 分页 -->
       <!-- @current-change 作用：当页码发生改变触发  默认传入当前新的页码 -->
-      <el-pagination
-        style="margin-top:20px"
-        background
-        layout="prev, pager, next"
-        :total="total"
-        :page-size="formData.per_page"
-        :current-page="formData.page"
-        @current-change="pager"
-      ></el-pagination>
+      <el-row type="flex" justify="center">
+        <el-pagination
+          style="margin-top:20px"
+          background
+          layout="prev, pager, next"
+          :total="total"
+          :page-size="formData.per_page"
+          :current-page="formData.page"
+          @current-change="pager"
+        ></el-pagination>
+      </el-row>
     </el-card>
   </div>
 </template>
@@ -113,7 +115,7 @@ export default {
         begin_pubdate: null, // 开始日期
         end_pubdate: null, // 结束日期
         page: 1, // 当前页码
-        per_page: 20 // 每页多少条
+        per_page: 10 // 每页多少条
       },
 
       // channels: [], // 频道选项数组 移到频道组件中
@@ -171,15 +173,15 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(async () => {
-        await this.$http.delete(`articles/${id}`)
-        this.$message({ type: 'success', message: '删除成功!'
-        })
-        this.getArticles()
-      }).catch(() => {
-        this.$message({ type: 'warning', message: '已取消删除'
-        })
       })
+        .then(async () => {
+          await this.$http.delete(`articles/${id}`)
+          this.$message({ type: 'success', message: '删除成功!' })
+          this.getArticles()
+        })
+        .catch(() => {
+          this.$message({ type: 'warning', message: '已取消删除' })
+        })
     },
 
     // 选择日期

@@ -13,6 +13,8 @@ import router from '@/router'
 // 配置axios
 import axios from '@/api'
 
+import '@/styles/index.less'
+
 // 全局注册面包屑组件(弃用)，封装了面包屑插件，所以不用在这里引入
 // import BreadCrumb from '@/components/common/bread-crumb'
 // Vue.component('my-bread', BreadCrumb)
