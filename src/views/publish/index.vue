@@ -142,4 +142,7 @@ export default {
 </script>
 
 <style scoped lang='less'>
+.el-card {
+  border-top: 2px solid #409eff;
+}
 </style>

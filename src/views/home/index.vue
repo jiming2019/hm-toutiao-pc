@@ -1,6 +1,6 @@
 <template>
   <el-container class="home-container">
-    <el-aside :width="isOpen?'200px':'64px'">
+    <el-aside :width="isOpen?'200px':'64px'" style="overflow:hidden;">
       <!-- logo -->
       <div class="logo" :class="{smallLogo:!isOpen}"></div>
       <!-- 导航菜单 -->
@@ -106,6 +106,7 @@
 
 <script>
 import local from '@/utils/local'
+import eventBus from '@/utils/eventBus' // 总线
 export default {
   data () {
     return {
@@ -141,6 +142,18 @@ export default {
     const { photo, name } = local.getUser() || {}
     this.photo = photo
     this.name = name
+
+    // 一旦监听到事件 就会执行后面的函数，更换用户名
+    // eventBus.$emit('updateName', this.userInfo.name) // 抛出一个事件
+    eventBus.$on('updateName', (name) => {
+      this.name = name
+    })
+
+    // 一旦监听到事件 就会执行后面的函数，更换头像
+    // eventBus.$emit('updatePhoto', data.photo) // 抛出一个事件
+    eventBus.$on('updatePhoto', (photo) => {
+      this.photo = photo
+    })
   }
 }
 </script>

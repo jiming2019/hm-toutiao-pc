@@ -24,6 +24,8 @@ import Image from '@/views/image'
 import Publish from '@/views/publish'
 // 评论管理组件
 import Comment from '@/views/comment'
+// 个人设置组件
+import Setting from '@/views/setting'
 
 // nprogress简单配置
 nprogress.inc(0.2)
@@ -51,7 +53,9 @@ const router = new VueRouter({
         // 发布文章
         { path: '/publish', component: Publish },
         // 评论管理
-        { path: '/comment', component: Comment }
+        { path: '/comment', component: Comment },
+        // 个人设置
+        { path: '/setting', component: Setting }
       ]
     }
   ]

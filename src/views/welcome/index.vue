@@ -1,6 +1,6 @@
 <template>
-  <div class='container'>
-    <img src="../../assets/img/welcome.jpg" alt="">
+  <div class="container">
+    <img src="../../assets/img/welcome.jpg" alt />
   </div>
 </template>
 
@@ -8,17 +8,20 @@
 export default {
   // 测试拦截
   created () {
-    this.$http.get('articles').then(res => {
-      // console.log(res.data)
-    }).catch(() => {
-      console.log('error')
-    })
+    this.$http
+      .get('articles')
+      .then(res => {
+        // console.log(res.data)
+      })
+      .catch(() => {
+        console.log('error')
+      })
   }
 }
 </script>
 
 <style scoped lang='less'>
-img{
+img {
   display: block;
   margin: 0 auto;
 }

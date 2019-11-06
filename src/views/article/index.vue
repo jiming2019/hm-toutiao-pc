@@ -1,7 +1,7 @@
 <template>
   <div class="container-article">
     <!-- 筛选条件布局 -->
-    <el-card>
+    <el-card v-loading="loading">
       <div slot="header">
         <!-- 使用自己封装的面包屑组件 -->
         <bread-crumb>内容管理：</bread-crumb>
@@ -121,7 +121,8 @@ export default {
       // channels: [], // 频道选项数组 移到频道组件中
       dateArr: [], // 日期范围
       articles: [], // 文章列表数据
-      total: 0 // 总条数
+      total: 0, // 总条数
+      loading: false
     }
   },
   methods: {
@@ -135,12 +136,14 @@ export default {
 
     // 获取文章列表数据
     async getArticles () {
+      this.loading = true
       const {
         data: { data }
       } = await this.$http.get('articles', { params: this.formData })
       this.articles = data.results
       // 总条数数据赋值
       this.total = data.total_count
+      this.loading = false
     },
 
     // 分页函数

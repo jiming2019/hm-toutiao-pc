@@ -21,6 +21,9 @@ import '@/styles/index.less'
 
 // 全局注册插件
 import plugin from '@/components/plugin'
+
+// 设置为 false 以阻止 vue 在启动时生成生产提示
+// Vue.config.productionTip = false
 Vue.use(plugin)
 
 Vue.prototype.$http = axios
