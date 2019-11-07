@@ -36,7 +36,7 @@
             <img v-if="userInfo.photo" :src="userInfo.photo" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
-          <p style="text-align:center">点击修改头像</p>
+          <p style="text-align:center">点击上面修改头像</p>
         </el-col>
       </el-row>
     </el-card>

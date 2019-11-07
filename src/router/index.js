@@ -26,6 +26,8 @@ import Publish from '@/views/publish'
 import Comment from '@/views/comment'
 // 个人设置组件
 import Setting from '@/views/setting'
+// 粉丝管理组件
+import Fans from '@/views/fans'
 
 // nprogress简单配置
 nprogress.inc(0.2)
@@ -55,7 +57,9 @@ const router = new VueRouter({
         // 评论管理
         { path: '/comment', component: Comment },
         // 个人设置
-        { path: '/setting', component: Setting }
+        { path: '/setting', component: Setting },
+        // 粉丝管理
+        { path: '/fans', component: Fans }
       ]
     }
   ]
