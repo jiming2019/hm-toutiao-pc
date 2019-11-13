@@ -8,28 +8,40 @@ import nprogress from 'nprogress'
 // 引入css
 import 'nprogress/nprogress.css'
 
-// 路由组件
-import Login from '@/views/login'
-// 首页组件
-import Home from '@/views/home'
-// 欢迎页面组件
-import Welcome from '@/views/welcome'
-// 404页面组件
-import NotFound from '@/views/404'
-// 内容管理组件
-import Article from '@/views/article'
-// 素材管理组件
-import Image from '@/views/image'
-// 发布文章组件
-import Publish from '@/views/publish'
-// 评论管理组件
-import Comment from '@/views/comment'
-// 个人设置组件
-import Setting from '@/views/setting'
-// 粉丝管理组件
-import Fans from '@/views/fans'
+// // 路由组件
+// import Login from '@/views/login'
+// // 首页组件
+// import Home from '@/views/home'
+// // 欢迎页面组件
+// import Welcome from '@/views/welcome'
+// // 404页面组件
+// import NotFound from '@/views/404'
+// // 内容管理组件
+// import Article from '@/views/article'
+// // 素材管理组件
+// import Image from '@/views/image'
+// // 发布文章组件
+// import Publish from '@/views/publish'
+// // 评论管理组件
+// import Comment from '@/views/comment'
+// // 个人设置组件
+// import Setting from '@/views/setting'
+// // 粉丝管理组件
+// import Fans from '@/views/fans'
 
-// nprogress简单配置
+// 使用路由懒加载进行优化
+const Login = () => import('@/views/login')
+const Home = () => import('@/views/home')
+const Welcome = () => import('@/views/welcome')
+const NotFound = () => import('@/views/404')
+const Article = () => import('@/views/article')
+const Image = () => import('@/views/image')
+const Publish = () => import('@/views/publish')
+const Comment = () => import('@/views/comment')
+const Setting = () => import('@/views/setting')
+const Fans = () => import('@/views/fans')
+
+// 进度条nprogress简单配置
 nprogress.inc(0.2)
 nprogress.configure({ easing: 'ease', speed: 500, showSpinner: false })
 

@@ -136,14 +136,14 @@ export default {
 
     // 获取文章列表数据
     async getArticles () {
-      this.loading = true
+      // this.loading = true
       const {
         data: { data }
       } = await this.$http.get('articles', { params: this.formData })
       this.articles = data.results
       // 总条数数据赋值
       this.total = data.total_count
-      this.loading = false
+      // this.loading = false
     },
 
     // 分页函数

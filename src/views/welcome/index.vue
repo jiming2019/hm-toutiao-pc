@@ -14,7 +14,7 @@ export default {
         // console.log(res.data)
       })
       .catch(() => {
-        console.log('error')
+        // console.log('error')
       })
   }
 }

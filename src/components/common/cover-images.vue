@@ -166,7 +166,7 @@ export default {
     // 选中图片
     selectedImage (url) {
       this.selectedImageUrl = url
-      console.log(url)
+      // console.log(url)
     },
     // 获取素材数据
     async getImages () {
