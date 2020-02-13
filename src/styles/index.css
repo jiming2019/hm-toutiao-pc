@@ -30,3 +30,11 @@
 .container-publish .ql-toolbar.ql-snow {
   padding: 0;
 }
+.move-enter-active,
+.move-leave-active {
+  transition: opacity 0.5s;
+}
+.move-enter,
+move-leave {
+  opacity: 0;
+}

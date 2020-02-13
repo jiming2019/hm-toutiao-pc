@@ -81,6 +81,12 @@
         <span class="el-icon-s-fold icon" @click="toggleMenu"></span>
         <!-- 文字 -->
         <span class="text">Coding</span>
+        <!-- 全屏显示 -->
+        <span class="btn-fullscreen" @click="handleFullScreen">
+          <el-tooltip effect="dark" :content="fullscreen?`取消全屏`:`全屏`" placement="bottom">
+            <i class="el-icon-rank"></i>
+          </el-tooltip>
+        </span>
         <!-- 下拉菜单组件 -->
         <el-dropdown trigger="click" class="dropdown" @command="handleClick">
           <span class="el-dropdown-link">
@@ -93,11 +99,14 @@
             <el-dropdown-item icon="el-icon-unlock" command="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
+
       </el-header>
 
       <el-main>
         <!-- 二级路由容器 -->
-        <router-view></router-view>
+        <transition name="move" mode="out-in">
+          <router-view></router-view>
+          </transition>
       </el-main>
 
     </el-container>
@@ -114,7 +123,10 @@ export default {
       isOpen: true,
       // 用户头像
       photo: '',
-      name: ''
+      name: '',
+      // 是否全屏显示
+      fullscreen: false,
+      dfdf: ''
     }
   },
   methods: {
@@ -136,6 +148,33 @@ export default {
       this[command]()
       // this.setting() === command setting
       // this.logout() === command logout
+    },
+    // 全屏事件
+    handleFullScreen () {
+      let element = document.documentElement
+      if (this.fullscreen) {
+        if (document.exitFullscreen) {
+          document.exitFullscreen()
+        } else if (document.webkitCancelFullScreen) {
+          document.webkitCancelFullScreen()
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen()
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen()
+        }
+      } else {
+        if (element.requestFullscreen) {
+          element.requestFullscreen()
+        } else if (element.webkitRequestFullScreen) {
+          element.webkitRequestFullScreen()
+        } else if (element.mozRequestFullScreen) {
+          element.mozRequestFullScreen()
+        } else if (element.msRequestFullscreen) {
+          // IE11
+          element.msRequestFullscreen()
+        }
+      }
+      this.fullscreen = !this.fullscreen
     }
   },
   created () {
@@ -186,10 +225,21 @@ export default {
     .icon {
       font-size: 30px;
       vertical-align: middle;
+      cursor: pointer;
     }
     .text {
       margin-left: 10px;
       vertical-align: middle;
+    }
+    // 全屏按钮
+    .btn-fullscreen {
+      display: inline-block;
+      transform: rotate(45deg);
+      vertical-align: middle;
+      font-size: 24px;
+      margin-left: 10px;
+      cursor: pointer;
+      color: black;
     }
     .dropdown {
       float: right;
@@ -200,11 +250,12 @@ export default {
         vertical-align: middle;
       }
       .userName {
-        margin-left: 5px;
+        margin-left: 10px;
         font-weight: bold;
         vertical-align: middle;
       }
     }
   }
+
 }
 </style>
