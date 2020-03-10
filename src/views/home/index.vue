@@ -82,8 +82,8 @@
         <!-- 文字 -->
         <span class="text">Coding</span>
         <!-- 全屏显示 -->
-        <span class="btn-fullscreen" @click="handleFullScreen">
-          <el-tooltip effect="dark" :content="fullscreen?`取消全屏`:`全屏`" placement="bottom">
+        <span class="btn-fullscreen" @click="clickFullscreen">
+          <el-tooltip effect="dark" :content="isFullscreen?`取消全屏`:`全屏`" placement="bottom">
             <i class="el-icon-rank"></i>
           </el-tooltip>
         </span>
@@ -116,6 +116,7 @@
 <script>
 import local from '@/utils/local'
 import eventBus from '@/utils/eventBus' // 总线
+import screenfull from 'screenfull' // 全屏显示
 export default {
   data () {
     return {
@@ -125,8 +126,7 @@ export default {
       photo: '',
       name: '',
       // 是否全屏显示
-      fullscreen: false,
-      dfdf: ''
+      isFullscreen: false
     }
   },
   methods: {
@@ -149,34 +149,68 @@ export default {
       // this.setting() === command setting
       // this.logout() === command logout
     },
-    // 全屏事件
-    handleFullScreen () {
-      let element = document.documentElement
-      if (this.fullscreen) {
-        if (document.exitFullscreen) {
-          document.exitFullscreen()
-        } else if (document.webkitCancelFullScreen) {
-          document.webkitCancelFullScreen()
-        } else if (document.mozCancelFullScreen) {
-          document.mozCancelFullScreen()
-        } else if (document.msExitFullscreen) {
-          document.msExitFullscreen()
-        }
-      } else {
-        if (element.requestFullscreen) {
-          element.requestFullscreen()
-        } else if (element.webkitRequestFullScreen) {
-          element.webkitRequestFullScreen()
-        } else if (element.mozRequestFullScreen) {
-          element.mozRequestFullScreen()
-        } else if (element.msRequestFullscreen) {
-          // IE11
-          element.msRequestFullscreen()
-        }
+    clickFullscreen () {
+      if (!screenfull.isEnabled) {
+        this.$message({
+          message: 'you browser can not work',
+          type: 'warning'
+        })
+        return false
       }
-      this.fullscreen = !this.fullscreen
+      screenfull.toggle()
+      // this.isFullscreen = !this.isFullscreen
+    },
+    checkFull () {
+      var isFull = document.fullscreenEnabled || window.fullScreen || document.webkitIsFullScreen || document.msFullscreenEnabled || document.fullscreen ||
+      document.mozFullScreen ||
+      document.webkitIsFullScreen ||
+      document.webkitFullScreen ||
+      document.msFullScreen
+      // to fix : false || undefined == undefined
+      if (isFull === undefined) {
+        isFull = false
+      }
+      return isFull
     }
   },
+  mounted () {
+    window.onresize = () => {
+      // 全屏下监控是否按键了ESC
+      if (this.checkFull()) {
+        console.log('按了Esc键')
+        // 退出全屏
+        this.isFullscreen = !this.isFullscreen
+      }
+    }
+  },
+  // 全屏事件
+  //   handleFullScreen () {
+  //     let element = document.documentElement
+  //     if (this.fullscreen) {
+  //       if (document.exitFullscreen) {
+  //         document.exitFullscreen()
+  //       } else if (document.webkitCancelFullScreen) {
+  //         document.webkitCancelFullScreen()
+  //       } else if (document.mozCancelFullScreen) {
+  //         document.mozCancelFullScreen()
+  //       } else if (document.msExitFullscreen) {
+  //         document.msExitFullscreen()
+  //       }
+  //     } else {
+  //       if (element.requestFullscreen) {
+  //         element.requestFullscreen()
+  //       } else if (element.webkitRequestFullScreen) {
+  //         element.webkitRequestFullScreen()
+  //       } else if (element.mozRequestFullScreen) {
+  //         element.mozRequestFullScreen()
+  //       } else if (element.msRequestFullscreen) {
+  //         // IE11
+  //         element.msRequestFullscreen()
+  //       }
+  //     }
+  //     this.fullscreen = !this.fullscreen
+  //   }
+  // },
   created () {
     const { photo, name } = local.getUser() || {}
     this.photo = photo
